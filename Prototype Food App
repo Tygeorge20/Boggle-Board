@@ -1,0 +1,118 @@
+import UIKit
+
+class ViewController: UIViewController {
+    
+    // UI Elements
+    let choppedCheeseButton = UIButton()
+    let baconEggCheeseButton = UIButton()
+    let cartButton = UIButton()
+    let cartLabel = UILabel()
+    
+    var cartTotal: Double = 0.0
+    var cartItems: [String] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Set up UI elements
+        // Set up chopped cheese button
+        choppedCheeseButton.setTitle("Chopped Cheese", for: .normal)
+        choppedCheeseButton.backgroundColor = .blue
+        choppedCheeseButton.addTarget(self, action: #selector(choppedCheeseButtonTapped), for: .touchUpInside)
+        choppedCheeseButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(choppedCheeseButton)
+        
+        // Set up bacon egg cheese button
+        baconEggCheeseButton.setTitle("Bacon Egg Cheese", for: .normal)
+        baconEggCheeseButton.backgroundColor = .blue
+        baconEggCheeseButton.addTarget(self, action: #selector(baconEggCheeseButtonTapped), for: .touchUpInside)
+        baconEggCheeseButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(baconEggCheeseButton)
+        
+        // Set up cart button
+        cartButton.setTitle("Cart", for: .normal)
+        cartButton.backgroundColor = .green
+        cartButton.addTarget(self, action: #selector(cartButtonTapped), for: .touchUpInside)
+        cartButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cartButton)
+        
+        // Set up cart label
+        cartLabel.text = "Cart: $0.00"
+        cartLabel.textAlignment = .center
+        cartLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cartLabel)
+    }
+    
+    // Action handler for chopped cheese button tap
+    @objc func choppedCheeseButtonTapped() {
+        addToCart(item: "Chopped Cheese", price: 4.99)
+    }
+    
+    // Action handler for bacon egg cheese button tap
+    @objc func baconEggCheeseButtonTapped() {
+        addToCart(item: "Bacon Egg Cheese", price: 3.99)
+    }
+    
+    // Action handler for cart button tap
+    @objc func cartButtonTapped() {
+        showCartAlert()
+    }
+    
+    // Function to add item to cart
+    func addToCart(item: String, price: Double) {
+        cartItems.append(item)
+        cartTotal += price
+        cartLabel.text = "Cart: $\(cartTotal)"
+    }
+    
+    // Function to show cart alert
+    func showCartAlert() {
+        let cartItemsString = getCartItemString()
+        let alert = UIAlertController(title: "Cart", message: cartItemsString, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Edit Cart", style: .default, handler: { _ in
+            self.editCart()
+        }))
+        alert.addAction(UIAlertAction(title: "Place Order", style: .default, handler: { _ in
+            self.placeOrder()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // Function to get cart item string
+    func getCartItemString() -> String {
+        var cartItemsString = ""
+        for item in cartItems {
+            cartItemsString += "- \(item)\n"
+        }
+        return cartItemsString
+    }
+    
+    // Function to edit cart
+    func editCart() {
+        // Implement logic to edit cart as per your requirement
+    }
+    
+    // Function to place order
+    // ...
+    
+    // Function to place order
+    func placeOrder() {
+        // Implement logic to place order as per your requirement
+        let alert = UIAlertController(title: "Order Placed", message: "Your order has been placed successfully!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.resetCart()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // Function to reset cart
+    func resetCart() {
+        cartTotal = 0.0
+        cartItems.removeAll()
+        cartLabel.text = "Cart: $0.00"
+    }
+}
+    // ...
+
+
